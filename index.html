@@ -1414,11 +1414,11 @@ html { -webkit-tap-highlight-color: transparent; }
         <div class="form-row">
           <div class="f-field">
             <label for="f-name">Your Name *</label>
-            <input id="f-name" name="name" type="text" placeholder="e.g. Rahul Sharma" required>
+            <input id="f-name" name="name" type="text" placeholder="e.g. Ishu Sagar" required>
           </div>
           <div class="f-field">
             <label for="f-email">Email Address *</label>
-            <input id="f-email" name="email" type="email" placeholder="you@email.com" required>
+            <input id="f-email" name="email" type="email" placeholder="Ishu2124@email.com" required>
           </div>
         </div>
         <div class="f-field">
@@ -1936,7 +1936,7 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const accessKey = form.querySelector('[name="access_key"]').value;
-  if(accessKey === 'YOUR_WEB3FORMS_KEY') {
+  if(accessKey === 'cb7dba53-ca4f-4ab2-8a17-cf4277de1ef8') {
     formMsg.className = 'form-msg error';
     formMsg.innerHTML = '⚠ <strong>One-time setup needed:</strong><br>Visit <a href="https://web3forms.com" target="_blank" style="color:var(--accent2);text-decoration:underline">web3forms.com</a> → enter your Gmail → get free key → replace YOUR_WEB3FORMS_KEY in the HTML file.';
     formMsg.style.display = 'block';
@@ -1959,7 +1959,7 @@ form.addEventListener('submit', async (e) => {
       formMsg.className = 'form-msg success';
       formMsg.innerHTML = '✅ <strong>Message sent successfully!</strong><br>Check your Gmail — deepanshusagar130@gmail.com<br>I\'ll reply within 24 hours.';
       form.reset();
-    } else {
+    } else {`
       throw new Error(data.message || 'Submission failed');
     }
   } catch(err) {
