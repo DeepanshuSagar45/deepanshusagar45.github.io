@@ -49,11 +49,135 @@ a{text-decoration:none;color:inherit;}
 body.hovering #cur{width:18px;height:18px;background:var(--accent2);}
 body.hovering #cur-ring{width:56px;height:56px;border-color:rgba(10,132,255,0.6);}
 
-/* BG */
+/* ══ NEXT-LEVEL BACKGROUND SYSTEM ══ */
 #bg-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;}
-.grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(0,245,196,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,196,0.018) 1px,transparent 1px);background-size:70px 70px;pointer-events:none;z-index:0;}
-body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px);pointer-events:none;z-index:1001;}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(3,8,16,0.85) 100%);pointer-events:none;z-index:1;}
+
+/* Animated aurora mesh */
+.aurora{
+  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
+.aurora-blob{
+  position:absolute;border-radius:50%;filter:blur(80px);opacity:0;
+  animation:auroraFloat ease-in-out infinite;
+}
+.aurora-blob.a1{
+  width:70vw;height:70vw;max-width:900px;max-height:900px;
+  background:radial-gradient(circle,rgba(0,245,196,.12) 0%,rgba(0,245,196,.04) 40%,transparent 70%);
+  top:-20%;left:-15%;
+  animation-duration:18s;animation-delay:0s;
+}
+.aurora-blob.a2{
+  width:60vw;height:60vw;max-width:800px;max-height:800px;
+  background:radial-gradient(circle,rgba(10,132,255,.10) 0%,rgba(10,132,255,.03) 40%,transparent 70%);
+  top:20%;right:-20%;
+  animation-duration:22s;animation-delay:-7s;
+}
+.aurora-blob.a3{
+  width:50vw;height:50vw;max-width:700px;max-height:700px;
+  background:radial-gradient(circle,rgba(180,79,255,.09) 0%,rgba(180,79,255,.03) 40%,transparent 70%);
+  bottom:-10%;left:20%;
+  animation-duration:26s;animation-delay:-14s;
+}
+.aurora-blob.a4{
+  width:40vw;height:40vw;max-width:600px;max-height:600px;
+  background:radial-gradient(circle,rgba(255,107,53,.06) 0%,rgba(255,107,53,.02) 40%,transparent 70%);
+  top:50%;right:10%;
+  animation-duration:20s;animation-delay:-4s;
+}
+@keyframes auroraFloat{
+  0%{opacity:0;transform:translate(0,0) scale(1) rotate(0deg);}
+  15%{opacity:1;}
+  50%{transform:translate(6%,4%) scale(1.12) rotate(8deg);opacity:.85;}
+  85%{opacity:1;}
+  100%{opacity:0;transform:translate(0,0) scale(1) rotate(0deg);}
+}
+
+/* Hex grid overlay */
+.hex-grid{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  opacity:.4;
+}
+
+/* Floating circuit lines */
+.circuit-layer{
+  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
+.circuit-line{
+  position:absolute;background:linear-gradient(90deg,transparent,rgba(0,245,196,.15),transparent);
+  height:1px;
+  animation:circuitFlow linear infinite;
+}
+.circuit-line.v{
+  width:1px;height:100%;
+  background:linear-gradient(180deg,transparent,rgba(0,245,196,.08),transparent);
+  animation:circuitFlowV linear infinite;
+}
+@keyframes circuitFlow{
+  0%{transform:translateX(-100%);opacity:0;}
+  10%{opacity:1;}
+  90%{opacity:1;}
+  100%{transform:translateX(200vw);opacity:0;}
+}
+@keyframes circuitFlowV{
+  0%{transform:translateY(-100%);opacity:0;}
+  10%{opacity:1;}
+  90%{opacity:1;}
+  100%{transform:translateY(200vh);opacity:0;}
+}
+
+/* Noise grain texture */
+.grain{
+  position:fixed;inset:0;z-index:1002;pointer-events:none;
+  opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:128px 128px;
+}
+
+/* Scanlines */
+body::after{
+  content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.03) 3px,rgba(0,0,0,0.03) 4px);
+  pointer-events:none;z-index:1001;
+}
+
+/* Deep vignette */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,245,196,.02),transparent),
+    radial-gradient(ellipse at center,transparent 40%,rgba(3,8,16,0.92) 100%);
+  pointer-events:none;z-index:1;
+}
+
+/* Dot matrix */
+.dot-matrix{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(0,245,196,.06) 1px,transparent 1px);
+  background-size:40px 40px;
+  animation:dotPulse 8s ease-in-out infinite;
+}
+@keyframes dotPulse{
+  0%,100%{opacity:.5;}
+  50%{opacity:1;}
+}
+
+/* Corner glow accents */
+.corner-glow{position:fixed;pointer-events:none;z-index:0;}
+.corner-glow.cg1{
+  top:0;left:0;
+  width:400px;height:400px;
+  background:radial-gradient(circle at top left,rgba(0,245,196,.05),transparent 70%);
+}
+.corner-glow.cg2{
+  bottom:0;right:0;
+  width:500px;height:500px;
+  background:radial-gradient(circle at bottom right,rgba(10,132,255,.06),transparent 70%);
+}
+.corner-glow.cg3{
+  top:50%;right:0;transform:translateY(-50%);
+  width:300px;height:600px;
+  background:radial-gradient(circle at right,rgba(180,79,255,.04),transparent 70%);
+}
 
 /* ═══════════════════════════════════════════
    CINEMATIC LOADER
@@ -979,7 +1103,44 @@ html { -webkit-tap-highlight-color: transparent; }
 
 <!-- MAIN SITE -->
 <canvas id="bg-canvas"></canvas>
-<div class="grid-bg"></div>
+
+<!-- Aurora blobs -->
+<div class="aurora">
+  <div class="aurora-blob a1"></div>
+  <div class="aurora-blob a2"></div>
+  <div class="aurora-blob a3"></div>
+  <div class="aurora-blob a4"></div>
+</div>
+
+<!-- Hex SVG grid -->
+<svg class="hex-grid" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="hexPat" x="0" y="0" width="60" height="52" patternUnits="userSpaceOnUse">
+      <polygon points="30,2 58,17 58,35 30,50 2,35 2,17"
+               fill="none" stroke="rgba(0,245,196,0.04)" stroke-width="0.8"/>
+    </pattern>
+    <pattern id="hexPat2" x="30" y="26" width="60" height="52" patternUnits="userSpaceOnUse">
+      <polygon points="30,2 58,17 58,35 30,50 2,35 2,17"
+               fill="none" stroke="rgba(10,132,255,0.025)" stroke-width="0.6"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#hexPat)"/>
+  <rect width="100%" height="100%" fill="url(#hexPat2)"/>
+</svg>
+
+<!-- Dot matrix -->
+<div class="dot-matrix"></div>
+
+<!-- Corner glows -->
+<div class="corner-glow cg1"></div>
+<div class="corner-glow cg2"></div>
+<div class="corner-glow cg3"></div>
+
+<!-- Circuit lines (injected by JS) -->
+<div class="circuit-layer" id="circuit-layer"></div>
+
+<!-- Grain texture -->
+<div class="grain"></div>
 <div id="cur"></div>
 <div id="cur-ring"></div>
 
@@ -1253,11 +1414,11 @@ html { -webkit-tap-highlight-color: transparent; }
         <div class="form-row">
           <div class="f-field">
             <label for="f-name">Your Name *</label>
-            <input id="f-name" name="name" type="text" placeholder="e.g. Ishu sagar" required>
+            <input id="f-name" name="name" type="text" placeholder="e.g. Rahul Sharma" required>
           </div>
           <div class="f-field">
             <label for="f-email">Email Address *</label>
-            <input id="f-email" name="email" type="email" placeholder="ishu2124@email.com" required>
+            <input id="f-email" name="email" type="email" placeholder="you@email.com" required>
           </div>
         </div>
         <div class="f-field">
@@ -1372,40 +1533,337 @@ window.addEventListener('load',()=>{
   }, 3000);
 });
 
-/* ═══ THREE.JS BACKGROUND ═══════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   ADVANCED THREE.JS — Galaxy + DNA Helix + Nebula + 
+   Constellation Web + Morphing Geometry
+═══════════════════════════════════════════════════════ */
 const bgCanvas = document.getElementById('bg-canvas');
 const renderer = new THREE.WebGLRenderer({canvas:bgCanvas,alpha:true,antialias:true});
-renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.8));
 renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.setClearColor(0x000000,0);
+
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
-camera.position.z = 80;
-const pGeo = new THREE.BufferGeometry();
-const N = 2400;
-const pPos = new Float32Array(N*3);
-const pCol = new Float32Array(N*3);
-for(let i=0;i<N;i++){
-  pPos[i*3]=(Math.random()-.5)*220;pPos[i*3+1]=(Math.random()-.5)*220;pPos[i*3+2]=(Math.random()-.5)*120;
-  const r=Math.random();
-  if(r<.5){pCol[i*3]=0;pCol[i*3+1]=.96;pCol[i*3+2]=.77;}
-  else if(r<.8){pCol[i*3]=.04;pCol[i*3+1]=.52;pCol[i*3+2]=1;}
-  else{pCol[i*3]=.18;pCol[i*3+1]=.36;pCol[i*3+2]=.48;}
+const camera = new THREE.PerspectiveCamera(65,window.innerWidth/window.innerHeight,0.1,2000);
+camera.position.set(0,0,90);
+
+/* ── 1. GALAXY PARTICLE SYSTEM ── */
+const galaxyGeo = new THREE.BufferGeometry();
+const GALAXY_N = 4000;
+const gPos = new Float32Array(GALAXY_N*3);
+const gCol = new Float32Array(GALAXY_N*3);
+const gSize = new Float32Array(GALAXY_N);
+
+for(let i=0;i<GALAXY_N;i++){
+  // Spiral arms
+  const arm = Math.floor(Math.random()*3);
+  const r = Math.random()*120 + 5;
+  const spin = r * 0.35;
+  const angle = (arm / 3) * Math.PI*2 + spin;
+  const spread = (Math.random()-0.5) * (r*0.18);
+  const spread2 = (Math.random()-0.5) * (r*0.06);
+
+  gPos[i*3]   = Math.cos(angle)*r + spread;
+  gPos[i*3+1] = spread2;
+  gPos[i*3+2] = Math.sin(angle)*r + spread;
+
+  // Color: teal core → blue mid → purple outer
+  const t = r/120;
+  if(t < 0.3){
+    gCol[i*3]=0; gCol[i*3+1]=0.96; gCol[i*3+2]=0.77;  // teal
+  } else if(t < 0.6){
+    gCol[i*3]=0.04; gCol[i*3+1]=0.52; gCol[i*3+2]=1;   // blue
+  } else if(t < 0.85){
+    gCol[i*3]=0.4; gCol[i*3+1]=0.2; gCol[i*3+2]=1;     // purple
+  } else {
+    gCol[i*3]=0.15; gCol[i*3+1]=0.15; gCol[i*3+2]=0.3; // dim
+  }
+  gSize[i] = Math.random()*2 + 0.5;
 }
-pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
-pGeo.setAttribute('color',new THREE.BufferAttribute(pCol,3));
-const pts = new THREE.Points(pGeo,new THREE.PointsMaterial({size:.45,vertexColors:true,transparent:true,opacity:.65,sizeAttenuation:true}));
-scene.add(pts);
-const tk = new THREE.Mesh(new THREE.TorusKnotGeometry(14,3.2,90,14),new THREE.MeshBasicMaterial({color:0x00f5c4,wireframe:true,transparent:true,opacity:.055}));
-tk.position.set(42,-12,-22);scene.add(tk);
-const ico = new THREE.Mesh(new THREE.IcosahedronGeometry(9,1),new THREE.MeshBasicMaterial({color:0x0a84ff,wireframe:true,transparent:true,opacity:.045}));
-ico.position.set(-52,16,-32);scene.add(ico);
-const oct = new THREE.Mesh(new THREE.OctahedronGeometry(6,0),new THREE.MeshBasicMaterial({color:0xb44fff,wireframe:true,transparent:true,opacity:.04}));
-oct.position.set(20,30,-50);scene.add(oct);
-let mx=0,my=0;
-window.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-.5)*2;my=-(e.clientY/window.innerHeight-.5)*2;});
-let fr=0;
-(function loop(){requestAnimationFrame(loop);fr++;pts.rotation.y=fr*.00025;pts.rotation.x=fr*.00008;tk.rotation.x+=.0025;tk.rotation.y+=.004;ico.rotation.x+=.003;ico.rotation.z+=.002;oct.rotation.y+=.005;oct.rotation.x+=.003;camera.position.x+=(mx*6-camera.position.x)*.018;camera.position.y+=(my*6-camera.position.y)*.018;camera.lookAt(scene.position);renderer.render(scene,camera);})();
-window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+
+galaxyGeo.setAttribute('position',new THREE.BufferAttribute(gPos,3));
+galaxyGeo.setAttribute('color',new THREE.BufferAttribute(gCol,3));
+
+const galaxyMat = new THREE.PointsMaterial({
+  size:0.55, vertexColors:true,
+  transparent:true, opacity:0.55,
+  sizeAttenuation:true,
+  blending:THREE.AdditiveBlending,
+  depthWrite:false
+});
+const galaxy = new THREE.Points(galaxyGeo,galaxyMat);
+galaxy.rotation.x = Math.PI*0.18;
+scene.add(galaxy);
+
+/* ── 2. BRIGHT STAR LAYER (foreground) ── */
+const starGeo = new THREE.BufferGeometry();
+const STAR_N = 600;
+const sPos = new Float32Array(STAR_N*3);
+const sCol = new Float32Array(STAR_N*3);
+for(let i=0;i<STAR_N;i++){
+  sPos[i*3]  =(Math.random()-0.5)*300;
+  sPos[i*3+1]=(Math.random()-0.5)*300;
+  sPos[i*3+2]=(Math.random()-0.5)*150;
+  const pick = Math.random();
+  if(pick<0.5){sCol[i*3]=0;sCol[i*3+1]=0.96;sCol[i*3+2]=0.77;}
+  else if(pick<0.75){sCol[i*3]=0.04;sCol[i*3+1]=0.52;sCol[i*3+2]=1;}
+  else if(pick<0.9){sCol[i*3]=0.7;sCol[i*3+1]=0.3;sCol[i*3+2]=1;}
+  else{sCol[i*3]=1;sCol[i*3+1]=0.42;sCol[i*3+2]=0.21;}
+}
+starGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+starGeo.setAttribute('color',new THREE.BufferAttribute(sCol,3));
+const stars = new THREE.Points(starGeo,new THREE.PointsMaterial({
+  size:0.9,vertexColors:true,transparent:true,opacity:0.8,
+  sizeAttenuation:true,blending:THREE.AdditiveBlending,depthWrite:false
+}));
+scene.add(stars);
+
+/* ── 3. MORPHING WIREFRAME OBJECTS ── */
+// Torus knot — main centerpiece
+const tkGeo = new THREE.TorusKnotGeometry(16,2.8,140,18,2,3);
+const tkMat = new THREE.MeshBasicMaterial({
+  color:0x00f5c4,wireframe:true,transparent:true,opacity:0.042
+});
+const tk = new THREE.Mesh(tkGeo,tkMat);
+tk.position.set(55,-8,-35);
+scene.add(tk);
+
+// Large icosahedron
+const icoGeo = new THREE.IcosahedronGeometry(14,2);
+const icoMat = new THREE.MeshBasicMaterial({
+  color:0x0a84ff,wireframe:true,transparent:true,opacity:0.035
+});
+const ico = new THREE.Mesh(icoGeo,icoMat);
+ico.position.set(-65,20,-45);
+scene.add(ico);
+
+// Octahedron
+const octGeo = new THREE.OctahedronGeometry(9,0);
+const octMat = new THREE.MeshBasicMaterial({
+  color:0xb44fff,wireframe:true,transparent:true,opacity:0.038
+});
+const oct = new THREE.Mesh(octGeo,octMat);
+oct.position.set(30,45,-60);
+scene.add(oct);
+
+// Torus ring
+const torGeo = new THREE.TorusGeometry(12,1.5,16,60);
+const torMat = new THREE.MeshBasicMaterial({
+  color:0xff6b35,wireframe:true,transparent:true,opacity:0.03
+});
+const tor = new THREE.Mesh(torGeo,torMat);
+tor.position.set(-30,-40,-50);
+tor.rotation.x = Math.PI*0.3;
+scene.add(tor);
+
+/* ── 4. DNA HELIX ── */
+const helixGroup = new THREE.Group();
+const HELIX_POINTS = 80;
+const strand1Pos = [];
+const strand2Pos = [];
+const connectorMat = new THREE.LineBasicMaterial({color:0x00f5c4,transparent:true,opacity:0.12});
+
+for(let i=0;i<HELIX_POINTS;i++){
+  const t = i/HELIX_POINTS * Math.PI*6;
+  const y = (i/HELIX_POINTS)*60-30;
+  const r1 = new THREE.Vector3(Math.cos(t)*5,y,Math.sin(t)*5);
+  const r2 = new THREE.Vector3(Math.cos(t+Math.PI)*5,y,Math.sin(t+Math.PI)*5);
+  strand1Pos.push(r1);
+  strand2Pos.push(r2);
+  if(i%4===0){
+    const connGeo = new THREE.BufferGeometry().setFromPoints([r1,r2]);
+    helixGroup.add(new THREE.Line(connGeo,connectorMat));
+  }
+}
+const s1Geo = new THREE.BufferGeometry().setFromPoints(strand1Pos);
+const s2Geo = new THREE.BufferGeometry().setFromPoints(strand2Pos);
+const strandMat1 = new THREE.LineBasicMaterial({color:0x00f5c4,transparent:true,opacity:0.2});
+const strandMat2 = new THREE.LineBasicMaterial({color:0x0a84ff,transparent:true,opacity:0.2});
+helixGroup.add(new THREE.Line(s1Geo,strandMat1));
+helixGroup.add(new THREE.Line(s2Geo,strandMat2));
+helixGroup.position.set(-80,0,-20);
+helixGroup.rotation.z = Math.PI*0.1;
+scene.add(helixGroup);
+
+/* ── 5. CONSTELLATION WEB (dynamic lines) ── */
+const webPoints = [];
+const WEB_N = 28;
+for(let i=0;i<WEB_N;i++){
+  webPoints.push({
+    pos: new THREE.Vector3(
+      (Math.random()-0.5)*180,
+      (Math.random()-0.5)*180,
+      (Math.random()-0.5)*80
+    ),
+    vel: new THREE.Vector3(
+      (Math.random()-0.5)*0.06,
+      (Math.random()-0.5)*0.06,
+      (Math.random()-0.5)*0.03
+    )
+  });
+}
+const webLinePositions = [];
+const MAX_DIST = 55;
+// Create line segments
+const webLines = [];
+for(let i=0;i<WEB_N;i++){
+  for(let j=i+1;j<WEB_N;j++){
+    const lineGeo = new THREE.BufferGeometry();
+    const pos = new Float32Array(6);
+    lineGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    const lineMat = new THREE.LineBasicMaterial({
+      color:0x00f5c4,transparent:true,opacity:0,
+      blending:THREE.AdditiveBlending,depthWrite:false
+    });
+    const line = new THREE.Line(lineGeo,lineMat);
+    scene.add(line);
+    webLines.push({line,i,j,mat:lineMat});
+  }
+}
+
+/* ── 6. NEBULA CLOUD PARTICLES ── */
+const nebGeo = new THREE.BufferGeometry();
+const NEB_N = 1200;
+const nPos = new Float32Array(NEB_N*3);
+const nCol = new Float32Array(NEB_N*3);
+for(let i=0;i<NEB_N;i++){
+  const theta = Math.random()*Math.PI*2;
+  const phi = Math.random()*Math.PI;
+  const r = Math.random()*40+20;
+  nPos[i*3]  = r*Math.sin(phi)*Math.cos(theta) + 60;
+  nPos[i*3+1]= r*Math.sin(phi)*Math.sin(theta) - 10;
+  nPos[i*3+2]= r*Math.cos(phi) - 40;
+  // purple/teal nebula colors
+  if(Math.random()<0.6){
+    nCol[i*3]=0.4; nCol[i*3+1]=0.1; nCol[i*3+2]=0.8;
+  } else {
+    nCol[i*3]=0; nCol[i*3+1]=0.6; nCol[i*3+2]=0.5;
+  }
+}
+nebGeo.setAttribute('position',new THREE.BufferAttribute(nPos,3));
+nebGeo.setAttribute('color',new THREE.BufferAttribute(nCol,3));
+const nebMat = new THREE.PointsMaterial({
+  size:2.5,vertexColors:true,transparent:true,opacity:0.045,
+  sizeAttenuation:true,blending:THREE.AdditiveBlending,depthWrite:false
+});
+const neb = new THREE.Points(nebGeo,nebMat);
+scene.add(neb);
+
+/* ── MOUSE PARALLAX ── */
+let mx=0,my=0,tmx=0,tmy=0;
+window.addEventListener('mousemove',e=>{
+  tmx=(e.clientX/window.innerWidth-0.5)*2;
+  tmy=-(e.clientY/window.innerHeight-0.5)*2;
+},{passive:true});
+
+// Touch support for mobile
+window.addEventListener('touchmove',e=>{
+  if(e.touches[0]){
+    tmx=(e.touches[0].clientX/window.innerWidth-0.5)*1.2;
+    tmy=-(e.touches[0].clientY/window.innerHeight-0.5)*1.2;
+  }
+},{passive:true});
+
+/* ── ANIMATION LOOP ── */
+let fr=0, time=0;
+(function loop(){
+  requestAnimationFrame(loop);
+  fr++; time = fr*0.005;
+
+  // Smooth mouse
+  mx += (tmx-mx)*0.025;
+  my += (tmy-my)*0.025;
+
+  // Galaxy rotation (slow majestic spin)
+  galaxy.rotation.y = time*0.08;
+  galaxy.rotation.z = Math.sin(time*0.1)*0.02;
+
+  // Stars slow drift
+  stars.rotation.y = time*0.015;
+  stars.rotation.x = time*0.005;
+
+  // Wireframe objects
+  tk.rotation.x  += 0.0018; tk.rotation.y  += 0.003;
+  tk.rotation.z  += 0.001;
+  ico.rotation.x += 0.002;  ico.rotation.z += 0.0015;
+  oct.rotation.y += 0.004;  oct.rotation.x += 0.002;
+  tor.rotation.y += 0.003;  tor.rotation.z += 0.002;
+
+  // Helix rotation + oscillation
+  helixGroup.rotation.y = time*0.3;
+  helixGroup.position.y = Math.sin(time*0.5)*5;
+
+  // Nebula pulse
+  neb.material.opacity = 0.04 + Math.sin(time*0.8)*0.015;
+  neb.rotation.y = time*0.05;
+
+  // Constellation web update
+  for(let i=0;i<WEB_N;i++){
+    webPoints[i].pos.add(webPoints[i].vel);
+    if(Math.abs(webPoints[i].pos.x)>90) webPoints[i].vel.x*=-1;
+    if(Math.abs(webPoints[i].pos.y)>90) webPoints[i].vel.y*=-1;
+    if(Math.abs(webPoints[i].pos.z)>40) webPoints[i].vel.z*=-1;
+  }
+  // Update web lines
+  for(const wl of webLines){
+    const a=webPoints[wl.i].pos, b=webPoints[wl.j].pos;
+    const d = a.distanceTo(b);
+    if(d < MAX_DIST){
+      const arr = wl.line.geometry.attributes.position.array;
+      arr[0]=a.x;arr[1]=a.y;arr[2]=a.z;
+      arr[3]=b.x;arr[4]=b.y;arr[5]=b.z;
+      wl.line.geometry.attributes.position.needsUpdate=true;
+      wl.mat.opacity = (1-d/MAX_DIST)*0.12;
+    } else {
+      wl.mat.opacity=0;
+    }
+  }
+
+  // Camera parallax
+  camera.position.x += (mx*10-camera.position.x)*0.02;
+  camera.position.y += (my*8-camera.position.y)*0.02;
+  camera.lookAt(scene.position);
+
+  renderer.render(scene,camera);
+})();
+
+window.addEventListener('resize',()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+},{passive:true});
+
+/* ── CIRCUIT LINES (DOM-based) ── */
+(function buildCircuit(){
+  const layer=document.getElementById('circuit-layer');
+  if(!layer)return;
+  const lines=[
+    {top:'15%',width:'35%',left:'0',dur:'12s',delay:'0s'},
+    {top:'38%',width:'28%',left:'0',dur:'18s',delay:'-6s'},
+    {top:'62%',width:'42%',left:'0',dur:'15s',delay:'-3s'},
+    {top:'80%',width:'20%',left:'0',dur:'20s',delay:'-9s'},
+    {top:'8%', width:'15%',left:'0',dur:'25s',delay:'-12s'},
+    {top:'22%',width:'12%',left:'0',dur:'22s',delay:'-4s'},
+  ];
+  lines.forEach(cfg=>{
+    const el=document.createElement('div');
+    el.className='circuit-line';
+    el.style.cssText=`top:${cfg.top};width:${cfg.width};left:${cfg.left};animation-duration:${cfg.dur};animation-delay:${cfg.delay};`;
+    layer.appendChild(el);
+  });
+  // Vertical lines
+  const vlines=[
+    {left:'20%',height:'30%',top:'0',dur:'14s',delay:'-2s'},
+    {left:'55%',height:'25%',top:'0',dur:'19s',delay:'-8s'},
+    {left:'80%',height:'35%',top:'0',dur:'16s',delay:'-5s'},
+  ];
+  vlines.forEach(cfg=>{
+    const el=document.createElement('div');
+    el.className='circuit-line v';
+    el.style.cssText=`left:${cfg.left};height:${cfg.height};top:${cfg.top};animation-duration:${cfg.dur};animation-delay:${cfg.delay};`;
+    layer.appendChild(el);
+  });
+})();
 
 /* ═══ CURSOR ═══════════════════════════════════════════ */
 const cur=document.getElementById('cur'),curR=document.getElementById('cur-ring');
